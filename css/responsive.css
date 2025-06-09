@@ -1,0 +1,97 @@
+@media (max-width: 768px) {
+  #app-container {
+    display: block;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    width: var(--sidebar-width) !important;
+    padding: 0 20px !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  #app-container:not(.sidebar-collapsed) #sidebar {
+    transform: translateX(0);
+  }
+
+  #main-content {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+
+  #main-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+
+  #app-container:not(.sidebar-collapsed) #main-overlay {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  header {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 15px;
+  }
+
+  .auth-buttons {
+    gap: 10px;
+  }
+
+  .auth-buttons .btn-secondary,
+  .auth-buttons .sign-out-btn {
+    display: none;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  .upload-title {
+    font-size: 16px;
+  }
+
+  .prompt-bar {
+    flex-direction: column;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  #prompt-input {
+    width: 100%;
+    background-color: var(--component-dark);
+    border-radius: 25px;
+    padding: 15px 20px;
+    border: 1px solid #4f4f4f;
+    margin-bottom: 15px;
+  }
+
+  #analyze-btn {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+}
