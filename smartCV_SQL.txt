@@ -1,0 +1,91 @@
+
+Database name: smartcvdb
+
+
+
+smartcvdb tables sql codes:
+
+
+
+-- user table
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+-- analysis_history table
+CREATE TABLE `analysis_history` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_facing_filename` varchar(255) NOT NULL,
+  `unique_filename` varchar(255) NOT NULL,
+  `initial_prompt` text NOT NULL,
+  `score` int(3) NOT NULL,
+  `analysis_details` text DEFAULT NULL,
+  `breakdown_table` text DEFAULT NULL,
+  `strengths` text DEFAULT NULL,
+  `improvements` text DEFAULT NULL,
+  `final_thoughts` text DEFAULT NULL,
+  `summary` text NOT NULL,
+  `analyzed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+-- chat_messages table
+CREATE TABLE `chat_messages` (
+  `id` int(11) NOT NULL,
+  `analysis_id` int(11) NOT NULL,
+  `sender` enum('user','ai') NOT NULL,
+  `message` text NOT NULL,
+  `sent_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+
+
+
+
+Database smartcvdb Indexes & Constraints:
+
+
+-- Primary Keys & Unique Indexes
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+ALTER TABLE `analysis_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `chat_messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `analysis_id` (`analysis_id`);
+
+
+
+-- Auto-Increment Setup
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+ALTER TABLE `analysis_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+ALTER TABLE `chat_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+
+
+
+-- Foreign Keys
+ALTER TABLE `analysis_history`
+  ADD CONSTRAINT `analysis_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `chat_messages`
+  ADD CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`analysis_id`) REFERENCES `analysis_history` (`id`) ON DELETE CASCADE;
+
